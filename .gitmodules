@@ -1,3 +1,0 @@
-[submodule "libraries/wiringPi"]
-	path = libraries/wiringPi
-	url = git://git.drogon.net/wiringPi
