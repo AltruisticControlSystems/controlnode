@@ -14,6 +14,7 @@ def configure(conf):
 def build(bld):
 
     bld(
+        install_path='${PREFIX}/bin',
         manifest='node.package',
         target='node',
         features=['cxx', 'cxxprogram','package', 'qt5']
