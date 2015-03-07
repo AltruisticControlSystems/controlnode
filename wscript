@@ -143,7 +143,7 @@ def configure(conf):
 
     conf.env.VERSION = VERSION
     conf.env.GIT_SHA = GIT_SHA
-    conf.env.PREFIX = 'install/opt'
+    conf.env.PREFIX = 'install/opt/ACS'
 
     conf.env.UNIT_TESTS = conf.options.UNIT_TESTS
     conf.env.SMOKE_TESTS = conf.options.SMOKE_TESTS
