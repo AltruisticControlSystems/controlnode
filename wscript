@@ -39,7 +39,7 @@ def get_git_sha():
     version = 'UNDEFINED'
     if os.path.exists('.git'):
         try:
-            version = os.popen('git describe --dirty --always').read.strip()
+            version = os.popen('git describe --dirty --always').read()
         except Exception, e:
             Logs.warn(e)
 
@@ -134,9 +134,7 @@ def options(opt):
         )
 
     # Load the tools
-    opt.load('compiler_c')
-    opt.load('compiler_cxx')
-    opt.load('qt5')
+    opt.load('compiler_c compiler_cxx qt5')
     opt.load('package', tooldir='waf-tools')
 
 
@@ -154,20 +152,23 @@ def configure(conf):
     conf.env.CXXFLAGS += ['-msse','-msse2','-mfpmath=sse']
     conf.env.CXXFLAGS += ['-Werror']
     conf.env.LDLIBS = ['-lQtCore','-lQtGui']
+    conf.env.QT = ['qml','quick']
+    conf.env.TEMPLATE = ['app']
 
-    if conf.options.MODE == 'debug':
-        Logs.pprint('WHITE','-> building for debug mode')
-        conf.env.CXXFLAGS += ['-g']
-        conf.env.LDLIBS += ['-lwiringPi']
-    elif conf.options.MODE == 'test':
-        Logs.pprint('WHITE','-> building tests')
-        conf.env.CXXFLAGS += ['-g']
-    elif conf.options.Mode == 'release':
-        Logs.pprint('WHITE','-> building release software')
-        conf.env.CXXFLAGS += ['-O2']
-        conf.env.LDLIBS += ['-lwiringPi']
-    else:
-        Logs.error('INVALID MODE SPECIFIED. Use test, debug, or release')
+    if getattr(conf.options, 'MODE', None) is not None:
+        if conf.options.MODE == 'debug':
+            Logs.pprint('WHITE','-> building for debug mode')
+            conf.env.CXXFLAGS += ['-g', '-fPIE']
+            conf.env.LDLIBS += ['-lwiringPi']
+        elif conf.options.MODE == 'test':
+            Logs.pprint('WHITE','-> building tests')
+            conf.env.CXXFLAGS += ['-g', '-fPIE']
+        elif conf.options.Mode == 'release':
+            Logs.pprint('WHITE','-> building release software')
+            conf.env.CXXFLAGS += ['-O2', '-fPie']
+            conf.env.LDLIBS += ['-lwiringPi']
+        else:
+            Logs.error('INVALID MODE SPECIFIED. Use test, debug, or release')
 
     conf.load('compiler_c compiler_cxx qt5')
     conf.load('package',tooldir='waf-tools')

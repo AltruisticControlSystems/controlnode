@@ -1,3 +1,4 @@
 <manifest>
     <source path="main.cpp"/>
+    <source path="controlNode.qrc"/>
 </manifest>

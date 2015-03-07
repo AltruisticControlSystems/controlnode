@@ -14,11 +14,13 @@ def configure(conf):
 def build(bld):
 
     bld(
-        install_path='${PREFIX}/bin',
-        manifest='node.package',
         target='node',
+        install_path='${PREFIX}/bin',
         features=['cxx', 'cxxprogram','package', 'qt5'],
-        uselib=['QTCORE','QTGUI','QTOPENGL','QTSVG','QTDBUS']
+        manifest='node.package',
+        includes=['.','/usr/include/qt5'],
+        uselib=['QT5CORE','QT5GUI','QT5QUICK','QT5BASE','QT5OPENGL','QT5SVG','QTDBUS'],
+        defines='WAF=1'
         )
 
     if bld.env.UNIT_TESTS:

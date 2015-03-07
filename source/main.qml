@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Main.cpp
+// Main.qml
 //
 // Copyright Altruistic Control Systems and Kenneth Wells, 2015
 // Author: Kenneth Wells
@@ -18,43 +18,19 @@
 // with this program. If not, see <http://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------
 
-#include <QtCore>
-#include <QDebug>
-#include <QtGui>
-#include <QtQml/QtQml>
-#include <QtQuick/QtQuick>
+import QtQuick 2.2
+import QtQuick.Window 2.1
+// TODO
+// import HmiCore 1.0
 
-int main(int argc, char* argv[])
+Window
 {
-    //Q_INIT_RESOURCE(nodeUi);
+    id: oMain
 
-    QGuiApplication nodeController(argc, argv);
-    nodeController.setOrganizationName("Altruistic Control Systems");
-    nodeController.setApplicationName("Controller Node");
+    width: 640
+    height: 480
 
-    foreach(QScreen* screen, QGuiApplication::screens())
-    {
-        screen->setOrientationUpdateMask(
-            Qt::LandscapeOrientation |
-            Qt::PortraitOrientation |
-            Qt::InvertedLandscapeOrientation |
-            Qt::InvertedPortraitOrientation
-            );
-    }
+    visible: true
 
-    QQmlEngine engine;
-    QQmlComponent mainWindow(&engine);
-    QQuickWindow::setDefaultAlphaBuffer(true);
-    mainWindow.loadUrl(QUrl("qrc:///main.qml"));
-
-    if(mainWindow.isReady())
-    {
-        mainWindow.create();
-    }
-    else
-    {
-        qWarning() << mainWindow.errorString();
-    }
-
-    return nodeController.exec();
+    modality: Qt.NonModal
 }
