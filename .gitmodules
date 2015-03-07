@@ -1,3 +1,9 @@
 [submodule "libraries/cxxCore"]
 	path = libraries/cxxCore
 	url = https://github.com/AltruisticControlSystems/cxxCore.git
+[submodule "libraries/HmiCore"]
+	path = libraries/HmiCore
+	url = https://github.com/AltruisticControlSystems/HmiCore.git
+[submodule "waf-tools"]
+	path = waf-tools
+	url = https://github.com/AltruisticControlSystems/waf-tools.git
