@@ -12,4 +12,15 @@ def configure(conf):
     pass
 
 def build(bld):
-    pass
+
+    bld(
+        manifest='node.package',
+        target='node',
+        features=['cxx', 'cxxprogram','package', 'qt5']
+        )
+
+    if bld.env.UNIT_TESTS:
+        bld.recurse('unitTests')
+
+    if bld.env.SMOKE_TESTS:
+        bld.recurse('smokeTests')

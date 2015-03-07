@@ -7,8 +7,7 @@
 
 import os, sys, re
 
-from waflib import Options, Logs
-from waflib import Configure
+from waflib import Configure, Logs, Options
 
 Configure.autoconfig = 1
 
@@ -19,22 +18,21 @@ LINUX       = 1
 MAC         = 2
 WINDOWS     = 3
 
-CROSS_PLATFORMS = { 'pi' : PI,
-    'linux' : LINUX,
-    'mac' : MAC,
-    'windows' : WINDOWS
+CROSS_PLATFORMS = {
+    'pi' : PI
     }
 
-C_COMPILERS = { PI : 'gcc',
-    LINUX : 'gcc',
-    MAC : 'gcc',
-    WINDOWS : 'cl'
+PLATFORM_OS = {
+    PI : 'Linux'
     }
 
-CXX_COMPILERS = { PI : 'g++',
-    LINUX : 'g++',
-    MAC : 'g++',
-    WINDOWS : 'cl'
+PLATFORM_ARCH = {
+    PI : 'armv6l'
+    }
+
+QT_DIR = {
+    PI : 'qt_pi',
+    LINUX: 'qt_gcc_64',
     }
 
 def get_git_sha():
@@ -135,19 +133,15 @@ def options(opt):
         help='Build the smoke tests. The smoke tests will test the integrated product'
         )
 
+    # Load the tools
+    opt.load('compiler_c')
+    opt.load('compiler_cxx')
+    opt.load('qt5')
+    opt.load('package', tooldir='waf-tools')
+
+
 def configure(conf):
     print('-> configuring the project in ' + conf.path.abspath())
-
-    if PLATFORM == UNKNOWN and not conf.options.CROSS_COMPILE:
-        Logs.error('Platform is unknown. Did you mean to cross compile?')
-    elif not conf.options.CROSS_COMPILE:
-        # Compile for the native platform
-        conf.env.PLATFORM = PLATFORM
-    elif conf.options.CROSS_PLATFORM in CROSS_PLATFORMS:
-        # Compile for the specified platform
-        conf.env.PLATFORM = CROSS_PLATFORMS[conf.options.CROSS_PLATFORM]
-    else:
-        Logs.error('Build platform unknown')
 
     conf.env.VERSION = VERSION
     conf.env.GIT_SHA = GIT_SHA
@@ -155,24 +149,27 @@ def configure(conf):
     conf.env.UNIT_TESTS = conf.options.UNIT_TESTS
     conf.env.SMOKE_TESTS = conf.options.SMOKE_TESTS
 
-    conf.find_program(C_COMPILERS[conf.env.PLATFORM], var='CC')
-    conf.find_program(CXX_COMPILERS[conf.env.PLATFORM], var='CXX')
-
     conf.env.CXXFLAGS = ['-pipe','-Wall']
     conf.env.CXXFLAGS += ['-msse','-msse2','-mfpmath=sse']
     conf.env.CXXFLAGS += ['-Werror']
+    conf.env.LDLIBS = ['-lQtCore','-lQtGui']
 
     if conf.options.MODE == 'debug':
         Logs.pprint('WHITE','-> building for debug mode')
         conf.env.CXXFLAGS += ['-g']
+        conf.env.LDLIBS += ['-lwiringPi']
     elif conf.options.MODE == 'test':
         Logs.pprint('WHITE','-> building tests')
         conf.env.CXXFLAGS += ['-g']
     elif conf.options.Mode == 'release':
         Logs.pprint('WHITE','-> building release software')
         conf.env.CXXFLAGS += ['-O2']
+        conf.env.LDLIBS += ['-lwiringPi']
     else:
         Logs.error('INVALID MODE SPECIFIED. Use test, debug, or release')
+
+    conf.load('compiler_c compiler_cxx qt5')
+    conf.load('package',tooldir='waf-tools')
 
     conf.recurse('libraries')
     conf.recurse('source')
@@ -182,9 +179,3 @@ def build(bld):
 
     bld.recurse('libraries')
     bld.recurse('source')
-
-    if bld.env.UNIT_TESTS:
-        bld.recurse('unitTests')
-
-    if bld.env.SMOKE_TESTS:
-        bld.recurse('smokeTests')
