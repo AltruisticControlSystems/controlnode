@@ -17,7 +17,8 @@ def build(bld):
         install_path='${PREFIX}/bin',
         manifest='node.package',
         target='node',
-        features=['cxx', 'cxxprogram','package', 'qt5']
+        features=['cxx', 'cxxprogram','package', 'qt5'],
+        uselib=['QTCORE','QTGUI','QTOPENGL','QTSVG','QTDBUS']
         )
 
     if bld.env.UNIT_TESTS:
