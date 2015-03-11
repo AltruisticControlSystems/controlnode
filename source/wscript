@@ -18,8 +18,8 @@ def build(bld):
         install_path='${PREFIX}/bin',
         features=['cxx', 'cxxprogram','package', 'qt5'],
         manifest='node.package',
-        includes=['.','/usr/include/qt5'],
-        uselib=['QT5CORE','QT5GUI','QT5QUICK','QT5BASE','QT5OPENGL','QT5SVG','QTDBUS'],
+        uselib=['QT5CORE','QT5GUI','QT5QUICK','QT5BASE','QT5OPENGL','QT5SVG'],
+        use=['cxxCore','HmiCore'],
         defines='WAF=1'
         )
 

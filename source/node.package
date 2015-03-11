@@ -1,4 +1,6 @@
 <manifest>
     <source path="main.cpp"/>
     <source path="controlNode.qrc"/>
+    <include path="."/>
+    <include path="/usr/include/qt5"/>
 </manifest>
