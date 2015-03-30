@@ -5,9 +5,6 @@
 # Control Node base wscript
 # Kenneth Wells, 2015
 
-from waflib import Options, Logs
-from waflib import Configure
-
 def configure(conf):
     pass
 
@@ -19,7 +16,16 @@ def build(bld):
         features=['cxx', 'cxxprogram','package', 'qt5'],
         manifest='node.package',
         uselib=['QT5CORE','QT5GUI','QT5QUICK','QT5BASE','QT5OPENGL','QT5SVG'],
-        use=['cxxCore','HmiCore'],
+        use=['cxxCore','HmiCore','server_proxy'],
+        defines='WAF=1'
+        )
+
+    bld(
+        target='server_proxy',
+        install_path='${PREFIX}/bin',
+        features=['cxx', 'cxxshlib','package', 'qt5', 'qdbus_proxy'],
+        manifest='server_proxy.package',
+        uselib=['QT5CORE','QT5BASE','QTDBUS','DBUS-1'],
         defines='WAF=1'
         )
 

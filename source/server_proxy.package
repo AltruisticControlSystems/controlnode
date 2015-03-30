@@ -1,0 +1,8 @@
+<manifest>
+    <include path="DBus/ServerDBusClient.hpp"/>
+
+    <include path="/usr/include/qt5"/>
+
+    <moc path="DBus/ServerDBusClient.hpp"/>
+    <introspect path="DBus/server_introspect.xml"/>
+</manifest>

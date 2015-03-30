@@ -135,7 +135,7 @@ def options(opt):
 
     # Load the tools
     opt.load('compiler_c compiler_cxx qt5')
-    opt.load('package', tooldir='waf-tools')
+    opt.load('package qdbus_proxy qdbus_adapter', tooldir='waf-tools')
 
 
 def configure(conf):
@@ -171,7 +171,7 @@ def configure(conf):
             Logs.error('INVALID MODE SPECIFIED. Use test, debug, or release')
 
     conf.load('compiler_c compiler_cxx qt5')
-    conf.load('package',tooldir='waf-tools')
+    conf.load('package qdbus_proxy qdbus_adapter',tooldir='waf-tools')
 
     conf.recurse('libraries')
     conf.recurse('source')
