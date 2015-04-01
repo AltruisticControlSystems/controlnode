@@ -4,6 +4,9 @@
 [submodule "libraries/HmiCore"]
 	path = libraries/HmiCore
 	url = https://github.com/AltruisticControlSystems/HmiCore.git
+[submodule "DBus"]
+	path = source/Comms/DBus
+	url = https://github.com/AltruisticControlSystems/DBus.git
 [submodule "waf-tools"]
 	path = waf-tools
 	url = https://github.com/AltruisticControlSystems/waf-tools.git

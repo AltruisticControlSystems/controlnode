@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<node name="/com/altruistic/control/server">
-    <interface name="com.altruistic.control.server">
-        <method name="alarm">
-            <arg type="u" name="aAlarmId" direction="in" />
-        </method>
-    </interface>
-</node>
