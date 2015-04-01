@@ -113,7 +113,7 @@ def options(opt):
         '--mode',
         action='store',
         dest='MODE',
-        default='release',
+        default='debug',
         help='Options are test, debug, and release. Test only builds the unit tests'
         )
 
@@ -163,7 +163,7 @@ def configure(conf):
         elif conf.options.MODE == 'test':
             Logs.pprint('WHITE','-> building tests')
             conf.env.CXXFLAGS += ['-g', '-fPIE']
-        elif conf.options.Mode == 'release':
+        elif conf.options.MODE == 'release':
             Logs.pprint('WHITE','-> building release software')
             conf.env.CXXFLAGS += ['-O2', '-fPie']
             conf.env.LDLIBS += ['-lwiringPi']
