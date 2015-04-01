@@ -15,19 +15,11 @@ def build(bld):
         install_path='${PREFIX}/bin',
         features=['cxx', 'cxxprogram','package', 'qt5'],
         manifest='node.package',
-        uselib=['QT5CORE','QT5GUI','QT5QUICK','QT5BASE','QT5OPENGL','QT5SVG'],
-        use=['cxxCore','HmiCore','server_proxy'],
+        uselib=['QT5CORE','QT5GUI','QT5QUICK','QT5BASE','QT5OPENGL','QT5SVG','cxxCore','HmiCore','comms'],
         defines='WAF=1'
         )
 
-    bld(
-        target='server_proxy',
-        install_path='${PREFIX}/bin',
-        features=['cxx', 'cxxshlib','package', 'qt5', 'qdbus_proxy'],
-        manifest='server_proxy.package',
-        uselib=['QT5CORE','QT5BASE','QTDBUS','DBUS-1'],
-        defines='WAF=1'
-        )
+    bld.recurse('Comms')
 
     if bld.env.UNIT_TESTS:
         bld.recurse('unitTests')

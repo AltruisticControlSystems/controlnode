@@ -1,0 +1,36 @@
+#! /usr/bin/env python
+# encoding: utf-8
+#
+# Altruistic Control Systems
+# Control Node base wscript
+# Kenneth Wells, 2015
+
+def configure(conf):
+    pass
+
+def build(bld):
+
+    bld(
+        target='server_proxy',
+        install_path='${PREFIX}/bin',
+        features=['cxx', 'cxxshlib','package', 'qt5', 'qdbus_proxy'],
+        manifest='server_proxy.package',
+        uselib=['QT5CORE','QT5BASE','QTDBUS','DBUS-1'],
+        defines='WAF=1'
+        )
+
+    bld(
+        target='comms',
+        install_path='${PREFIX}/bin',
+        features=['cxx', 'cxxshlib','package', 'qt5', 'qdbus_adapter'],
+        manifest='comms.package',
+        uselib=['QT5CORE','QT5GUI','QT5QUICK','QT5BASE','QT5OPENGL','QT5SVG','cxxCore','HmiCore'],
+        depends_on=['server_proxy'],
+        defines='WAF=1'
+        )
+
+    if bld.env.UNIT_TESTS:
+        bld.recurse('unitTests')
+
+    if bld.env.SMOKE_TESTS:
+        bld.recurse('smokeTests')

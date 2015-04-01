@@ -155,6 +155,8 @@ def configure(conf):
     conf.env.QT = ['qml','quick']
     conf.env.TEMPLATE = ['app']
 
+    conf.find_program('qdbusxml2cpp',var='QDBUSXML2CPP')
+
     if getattr(conf.options, 'MODE', None) is not None:
         if conf.options.MODE == 'debug':
             Logs.pprint('WHITE','-> building for debug mode')

@@ -2,6 +2,7 @@
     <!--
         source files
     -->
+    <source path="DBusManager.cpp"/>
 
     <!--
         headers to moc
@@ -9,16 +10,21 @@
         Only add headers that contain the Q_OBJECT macro. See Qt's
         documentation about moc'ing files.
     -->
-    <moc path="DBus/ServerDBusClient.hpp"/>
+    <moc path="DBusManager.hpp"/>
 
     <!--
         include directories
     -->
+    <include path="."/>
     <include path="DBus/"/>
+    <include path="../../libraries/cxxCore/"/>
     <include path="/usr/include/qt5"/>
 
     <!--
         DBus specific
     -->
-    <introspect path="DBus/server_introspect.xml"/>
+    <dbusInclude path="DBusManager.hpp"/>
+    <businessLogic class="Comms::DBusManager"/>
+    <introspect path="DBus/node_introspect.xml"/>
+
 </manifest>

@@ -1,7 +1,19 @@
 <manifest>
+    <!--
+        source files
+    -->
     <source path="main.cpp"/>
     <source path="controlNode.qrc"/>
+    <!--
+        headers to moc
 
+        Only add headers that contain the Q_OBJECT macro. See Qt's
+        documentation about moc'ing files.
+    -->
+    <!--
+        include directories
+    -->
     <include path="."/>
     <include path="/usr/include/qt5"/>
+
 </manifest>
