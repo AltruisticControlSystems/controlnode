@@ -10,3 +10,6 @@
 [submodule "waf-tools"]
 	path = waf-tools
 	url = https://github.com/AltruisticControlSystems/waf-tools.git
+[submodule "source/Comms/DBus"]
+	path = source/Comms/DBus
+	url = https://github.com/AltruisticControlSystems/DBus.git
